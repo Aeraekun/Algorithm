@@ -18,10 +18,10 @@ public class Main {
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 2; j++) {
-                if (arr[i][j] % 2 == 1) {
+                if (arr[i][j] % k != 0) {
                     ans++;
                 }
-                ans += arr[i][j] / 2;
+                ans += arr[i][j] / k;
             }
         }
         System.out.println(ans);
