@@ -1,72 +1,50 @@
 import java.io.*;
 import java.util.*;
-public class Main {
 
-	static int M, N, K;
-	static int map[][];
-	static int dx[]= {0,1,0,-1}, dy[]= {1,0,-1,0};
-	static Queue<Node> que = new LinkedList<>();
+public class Main {
+	static int m, n, k;
+	static int[] dx = { 1, 0, -1, 0 };
+	static int[] dy = { 0, 1, 0, -1 };
+	static int[][] map;
+	static boolean[][] visited;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int T = Integer.parseInt(st.nextToken());
-		for(int t=1;t<=T;t++) {
+		int tc = Integer.parseInt(st.nextToken());
+		for (int t = 0; t < tc; t++) {
+			int ans = 0;
 			st = new StringTokenizer(br.readLine());
-			M = Integer.parseInt(st.nextToken());
-			N = Integer.parseInt(st.nextToken());
-			K = Integer.parseInt(st.nextToken());
-			map = new int[M][N];
-			for(int i=0;i<K;i++) {
+			m = Integer.parseInt(st.nextToken());
+			n = Integer.parseInt(st.nextToken());
+			k = Integer.parseInt(st.nextToken());
+			map = new int[m][n];
+			visited = new boolean[m][n];
+			for (int i = 0; i < k; i++) {
 				st = new StringTokenizer(br.readLine());
-				int a = Integer.parseInt(st.nextToken());
-				int b = Integer.parseInt(st.nextToken());
-				map[a][b] = 1;
+				map[Integer.parseInt(st.nextToken())][Integer.parseInt(st.nextToken())] = 1;
 			}
-			int cnt=0;
-			
-			for(int i=0;i<M;i++) {
-				for(int j=0;j<N;j++) {
-					if(map[i][j]==1) {
-						map[i][j]=0;
-						que.add(new Node(i,j));
-						bfs();
-						cnt++;
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++) {
+					if (map[i][j] == 1 && !visited[i][j]) {
+						dfs(i, j);
+						ans++;
 					}
 				}
 			}
-			
-			System.out.println(cnt);
-
+			System.out.println(ans);
 		}
+
 	}
 
-	public static void bfs() {
-		while(!que.isEmpty()) {
-			Node n =que.poll();
-			int x = n.nx;
-			int y = n.ny;
-			for(int i=0;i<4;i++) {
-				int rx = x+dx[i];
-				int ry = y+dy[i];
-				if(isRange(rx, ry) && map[rx][ry]==1) {
-					map[rx][ry]=0;
-					que.add(new Node(rx, ry));
+	static void dfs(int x, int y) {
+		visited[x][y] = true;
+		for (int i = 0; i < 4; i++) {
+			if (x + dx[i] >= 0 && x + dx[i] < m && y + dy[i] >= 0 && y + dy[i] < n) {
+				if (map[x + dx[i]][y + dy[i]] == 1 && !visited[x + dx[i]][y + dy[i]]) {
+					dfs(x + dx[i], y + dy[i]);
 				}
 			}
 		}
 	}
-	static boolean isRange(int x, int y) {
-		if(x<0 || y<0 || x>=M || y>=N) {
-			return false;
-		}		
-		return true;
-	}
-	
-	static class Node {
-		int nx, ny;
-		public Node(int x, int y) {
-			nx = x; ny = y;
-		}
-	}
 }
-
