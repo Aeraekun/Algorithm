@@ -10,7 +10,7 @@ public class Main {
 		int m = Integer.parseInt(st.nextToken());
 		int r = Integer.parseInt(st.nextToken());
 		int[][] map = new int[n][m];
-		int[] cal = new int[r];
+		List<Integer> cal = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < m; j++) {
@@ -19,7 +19,64 @@ public class Main {
 		}
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < r; i++) {
-			cal[i] = Integer.parseInt(st.nextToken());
+			cal.add(Integer.parseInt(st.nextToken()));
+		}
+		while (true) {
+			boolean update = false;
+			for (int i = cal.size() - 1; i > 0; i--) {
+				switch (cal.get(i)) {
+				case 1:
+					if (cal.size() != 0 && cal.get(i - 1) == 1) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				case 2:
+					if (cal.size() != 0 && cal.get(i - 1) == 2) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				case 3:
+					if (cal.size() != 0 && cal.get(i - 1) == 4) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				case 4:
+					if (cal.size() != 0 && cal.get(i - 1) == 3) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				case 5:
+					if (cal.size() != 0 && cal.get(i - 1) == 6) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				case 6:
+					if (cal.size() != 0 && cal.get(i - 1) == 5) {
+						cal.remove(i);
+						cal.remove(i - 1);
+						i--;
+						update = true;
+					}
+					break;
+				}
+			}
+			if (!update)
+				break;
 		}
 		for (int c : cal) {
 			n = map.length;
