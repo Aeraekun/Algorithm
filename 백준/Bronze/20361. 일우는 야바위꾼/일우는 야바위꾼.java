@@ -1,31 +1,31 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		
-		st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int X = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		
-		// 컵의 위치를 맞바꾸기
-		for (int i = 0; i < K; i++) {
-			st = new StringTokenizer(br.readLine());
-			int cup1 = Integer.parseInt(st.nextToken());
-			int cup2 = Integer.parseInt(st.nextToken());
-			
-			if (X == cup1) {
-				X = cup2;
-			} else if (X == cup2) {
-				X = cup1;
-			}
-		}
-		
-		System.out.println(X);
-	}
+    static int N, X, K;
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        X = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        boolean[] cup = new boolean[N];
+        cup[X - 1] = true;
+        for (int k = 0; k < K; k++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken()) - 1;
+            int b = Integer.parseInt(st.nextToken()) - 1;
+            boolean temp = cup[a];
+            cup[a] = cup[b];
+            cup[b] = temp;
+        }
+        for (int n = 0; n < N; n++) {
+            if (cup[n]) {
+                System.out.println(n + 1);
+                break;
+            }
+        }
+    }
 }
