@@ -42,17 +42,17 @@ public class Main {
         }
         for (int i = 0; i < M; i++) {
             if (success)
-                pDFS();
+                pBFS();
             else break;
             if (success)
-                dDFS();
+                dBFS();
             else break;
         }
         if (left != 0) System.out.println(-1);
         else System.out.println(position[2]);
     }
 
-    private static void pDFS() {
+    private static void pBFS() {
         if (people[position[0]][position[1]] != 0) {
             person = people[position[0]][position[1]];
             people[position[0]][position[1]] = 0;
@@ -99,7 +99,7 @@ public class Main {
         success = false;
     }
 
-    private static void dDFS() {
+    private static void dBFS() {
         if (dest[position[0]][position[1]].contains(person)) {
             dest[position[0]][position[1]].remove(dest[position[0]][position[1]].indexOf(person));
             left--;
