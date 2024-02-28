@@ -13,8 +13,10 @@ public class Solution {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
+		StringBuilder sb;
 		T = Integer.parseInt(br.readLine());
 		for (int t = 1; t <= T; t++) {
+			sb = new StringBuilder();
 			ans = coreCnt = coreAns = lineAns = 0;
 			sy = sx = -1;
 			N = Integer.parseInt(br.readLine());
@@ -50,7 +52,7 @@ public class Solution {
 				}
 			}
 			dfs(0, 0, 0);
-			System.out.printf("#%d %d\n", t, lineAns);
+			System.out.println(sb.append("#").append(t).append(" ").append(lineAns));
 		}
 	}
 
