@@ -4,11 +4,7 @@ import java.util.*;
 public class Main {
     static int N, M, ans;
     static List<xy> chi, home;
-    static int[] dy = {-1, 1, 0, 0};
-    static int[] dx = {0, 0, -1, 1};
-    static int[][] map;
     static boolean[] isSelected;
-    static boolean[][] visited;
 
     static class xy {
         int y;
@@ -26,17 +22,16 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         ans = Integer.MAX_VALUE;
-        map = new int[N][N];
         chi = new ArrayList<>();
         home = new ArrayList<>();
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-                if (map[i][j] == 1)
+                int temp = Integer.parseInt(st.nextToken());
+                if (temp == 1)
                     home.add(new xy(i, j));
-                else if (map[i][j] == 2)
+                else if (temp == 2)
                     chi.add(new xy(i, j));
             }
         }
