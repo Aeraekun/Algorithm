@@ -4,7 +4,6 @@ import java.util.*;
 public class Solution {
 	static int N, L, ans;
 	static int[][] arr;
-	static boolean[] isSelected;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,7 +15,6 @@ public class Solution {
 			N = Integer.parseInt(st.nextToken());
 			L = Integer.parseInt(st.nextToken());
 			arr = new int[N][2];
-			isSelected = new boolean[N];
 			for (int i = 0; i < N; i++) {
 				st = new StringTokenizer(br.readLine());
 				arr[i][0] = Integer.parseInt(st.nextToken());
