@@ -4,7 +4,7 @@ import java.math.BigInteger;
 public class Main {
 	static int N, K;
 	static BigInteger ans;
-	static BigInteger dp[];
+	static BigInteger[] dp;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
