@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
         N = Integer.parseInt(br.readLine());
         map = new char[N][2 * N - 1];
         for (int i = 0; i < N; i++)
@@ -15,12 +15,11 @@ public class Main {
         draw(0, N - 1, N);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < 2 * N - 1; j++) {
-                bw.write(map[i][j]);
+                sb.append(map[i][j]);
             }
-            bw.write('\n');
+            sb.append('\n');
         }
-        bw.flush();
-        bw.close();
+        System.out.print(sb);
     }
 
     private static void draw(int y, int x, int n) {
