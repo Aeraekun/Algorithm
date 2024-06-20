@@ -34,8 +34,7 @@ public class Main {
         for (int s = 0; s < arr.length; s++) {
             for (int i = 0; i < arr.length - s; i++) {
                 temp[i] += arr[i + s];
-                if (map.containsKey(temp[i])) map.put(temp[i], map.get(temp[i]) + 1);
-                else map.put(temp[i], 1);
+                map.put(temp[i], map.getOrDefault(temp[i], 0) + 1);
             }
         }
     }
