@@ -1,17 +1,17 @@
 class Solution {
-    static int answer;
+    
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        answer = 0;
         dfs(numbers, target, 0, 0);
         return answer;
     }
     
-    private static void dfs(int[] numbers, int target, int index, int now) {
-        if(index == numbers.length) {
+    private void dfs(int[] numbers, int target, int len, int now) {
+        if(len == numbers.length) {
             if(now == target) answer++;
             return;
         }
-        dfs(numbers, target, index + 1, now + numbers[index]);
-        dfs(numbers, target, index + 1, now - numbers[index]);
+        dfs(numbers, target, len + 1, now + numbers[len]);
+        dfs(numbers, target, len + 1, now - numbers[len]);
     }
 }
