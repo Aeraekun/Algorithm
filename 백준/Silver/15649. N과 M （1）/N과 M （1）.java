@@ -3,8 +3,8 @@ import java.util.*;
 
 public class Main {
     static int N, M;
-    static boolean[] check;
-    static Stack<Integer> stack = new Stack<>();
+    static boolean[] visited;
+    static int[] arr;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws Exception {
@@ -12,28 +12,27 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        check = new boolean[N + 1];
-        count(0);
+        visited = new boolean[N + 1];
+        arr = new int[M];
+        dfs(0);
         System.out.println(sb);
     }
 
-    private static void count(int len) {
-        if (len == M) {
-            for (int i = 0; i < M; i++) {
-                sb.append(stack.get(i)).append(' ');
+    private static void dfs(int depth) {
+        if (depth == M) {
+            for (int val : arr) {
+                sb.append(val).append(' ');
             }
             sb.append('\n');
-            check[stack.pop()] = false;
             return;
         }
         for (int i = 1; i <= N; i++) {
-            if (check[i]) continue;
-            else {
-                check[i] = true;
-                stack.push(i);
-                count(len + 1);
+            if (!visited[i]) {
+                visited[i] = true;
+                arr[depth] = i;
+                dfs(depth + 1);
+                visited[i] = false;
             }
         }
-        if (!stack.isEmpty()) check[stack.pop()] = false;
     }
 }
