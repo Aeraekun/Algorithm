@@ -5,6 +5,7 @@ public class Main {
     static int N, M;
     static boolean[] check;
     static Stack<Integer> stack = new Stack<>();
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,15 +14,15 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         check = new boolean[N + 1];
         count(0);
+        System.out.println(sb);
     }
 
     private static void count(int len) {
         if (len == M) {
-            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < M; i++) {
                 sb.append(stack.get(i)).append(' ');
             }
-            System.out.println(sb);
+            sb.append('\n');
             check[stack.pop()] = false;
             return;
         }
