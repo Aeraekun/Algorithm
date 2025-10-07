@@ -23,8 +23,8 @@ public class Main {
 
     private static void dfs(int now, int order) {
         if (order == N) {
-            if (now > max) max = now;
-            if (now < min) min = now;
+            max = Math.max(now, max);
+            min = Math.min(now, min);
             return;
         }
         for (int i = 0; i < 4; i++) {
