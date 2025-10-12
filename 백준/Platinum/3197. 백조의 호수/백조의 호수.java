@@ -1,180 +1,113 @@
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
+
+class Node {
+    int r;
+    int c;
+
+    Node(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
 
 public class Main {
-	
-	static int R, C, answer, startR, startC;
-	static int[] dr = {-1, 0, 1, 0};
-	static int[] dc = {0, 1, 0, -1};
-	static char[][] map;
-	static boolean[][] visited;
-	static boolean[][] personVisited;
-	static Queue<Point> iceQ;
-	static Queue<Point> bufferIceQ;
-	static Queue<Point> personQ;
-	static Queue<Point> bufferPersonQ;
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		// 초기 세팅
-		R = Integer.parseInt(st.nextToken());
-		C = Integer.parseInt(st.nextToken());
-		map = new char[R][C];
-		
-		for (int i = 0; i < R; i++) {
-			String s = br.readLine();
-			for (int j = 0; j < C; j++) {
-				char c = s.charAt(j);
-				map[i][j] = c;
-				
-				if (c == 'L') {
-					startR = i;
-					startC = j;
-				}
-			}
-		}
-		
-		play();
-		System.out.println(answer);
-	}
-	
-	private static void play() {
-		iceQ = new ArrayDeque<>();
-		bufferIceQ = new ArrayDeque<>();
-		personQ = new ArrayDeque<>();
-		bufferPersonQ = new ArrayDeque<>();
-		
-		visited = new boolean[R][C];
-		personVisited = new boolean[R][C];
-		
-		// 처음에 바로 두 사람이 만날 수 있는지 확인하기
-		personVisited = new boolean[R][C];
-		if (findPerson(startR, startC)) {
-			return;
-		}
-		
-		personVisited = new boolean[R][C];
-		// 두 사람이 만날 수 있을 때까지 반복
-		while (true) {
-			answer++;
-			
-			if (answer > 1) {
-				while (!bufferIceQ.isEmpty()) {
-					iceQ.offer(bufferIceQ.poll());
-				}
-				while (!bufferPersonQ.isEmpty()) {
-					personQ.offer(bufferPersonQ.poll());
-				}
-				
-				int qSize = iceQ.size();
-				for (int i = 0; i < qSize; i++) {
-					Point p = iceQ.poll();
-					bfs(p.x, p.y);
-				}
-				
-				int pqSize = personQ.size();
-				for (int i = 0; i < pqSize; i++) {
-					Point p = personQ.poll();
-					if (findPerson(p.x, p.y)) {
-						return;
-					}
-				}
-			} else {
-				// 빙하 녹이기
-				for (int i = 0; i < R; i++) {
-					for (int j = 0; j < C; j++) {
-						// 방문한 적이 없고, 일반 땅이라면
-						if (!visited[i][j] && (map[i][j] == '.' || map[i][j] == 'L')) {
-							bfs(i, j);
-						}
-					}
-				}
-				
-				// 두 사람이 만날 수 있는지 확인하기
-				if (findPerson(startR, startC)) {
-					return;
-				}
-			}
-		}
-	}
-	
-	private static void bfs(int r, int c) {
-		Queue<Point> q = new ArrayDeque<>();
-		q.offer(new Point(r, c));
-		visited[r][c] = true;
-		
-		while (!q.isEmpty()) {
-			
-			Point p = q.poll();
-			r = p.x;
-			c = p.y;
-			
-			for (int dir = 0; dir < 4; dir++) {
-				int nr = r + dr[dir];
-				int nc = c + dc[dir];
-				
-				if (isIn(nr, nc) && !visited[nr][nc]) {
-					// 방문한 곳이 빙하라면 녹이고, 해당 방향 진행 X
-					if (map[nr][nc] == 'X') {
-						map[nr][nc] = '.';
-						bufferIceQ.offer(new Point(nr, nc));
-					// 방문한 곳이 일반 땅이라면 해당 방향 진행
-					} else {
-						q.offer(new Point(nr, nc));
-					}
-					visited[nr][nc] = true;
-				}
-			}
-		}
-	}
-	
-	private static boolean findPerson(int r, int c) {
-		boolean findFlag = false;
-		Queue<Point> q = new ArrayDeque<>();
-		q.offer(new Point(r, c));
-		personVisited[r][c] = true;
-		
-		while (!q.isEmpty()) {
-			Point p = q.poll();
-			r = p.x;
-			c = p.y;
-			
-			for (int dir = 0; dir < 4; dir++) {
-				int nr = r + dr[dir];
-				int nc = c + dc[dir];
-				
-				if (isIn(nr, nc) && !personVisited[nr][nc]) {
-					// 방문한 곳이 일반 땅이라면 진행
-					if (map[nr][nc] == '.') {
-						q.offer(new Point(nr, nc));
-					} else if (map[nr][nc] == 'L') {
-						findFlag = true;
-					} else if (map[nr][nc] == 'X') {
-						bufferPersonQ.offer(new Point(nr, nc));
-					}
-					personVisited[nr][nc] = true;
-				}
-				
-				if (findFlag) {
-					break;
-				}
-			}
-			
-			if (findFlag) {
-				break;
-			}
-		}
-		
-		return findFlag;
-	}
-	
-	private static boolean isIn(int r, int c) {
-		return r >= 0 && c >= 0 && r < R && c < C;
-	}
+    static int R, C, ans = 0;
+    static int left = Integer.MAX_VALUE;
+    static int right = Integer.MIN_VALUE;
+    static int[] dr = {1, -1, 0, 0};
+    static int[] dc = {0, 0, 1, -1};
+    static boolean[][] visited;
+    static char[][] map;
+    static int[][] melt;
+    static int[][] swan = {{-1, -1}, {-1, -1}};
+    static Deque<Node> deque = new ArrayDeque<>();
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        map = new char[R][C];
+        melt = new int[R][C];
+        for (int r = 0; r < R; r++) {
+            Arrays.fill(melt[r], Integer.MAX_VALUE);
+        }
+
+        for (int r = 0; r < R; r++) {
+            String str = br.readLine();
+            for (int c = 0; c < C; c++) {
+                map[r][c] = str.charAt(c);
+                if (map[r][c] != 'X') {
+                    if (map[r][c] == 'L') {
+                        if (swan[0][0] == -1) {
+                            swan[0][0] = r;
+                            swan[0][1] = c;
+                        } else {
+                            swan[1][0] = r;
+                            swan[1][1] = c;
+                        }
+                    }
+                    melt[r][c] = 0;
+                    deque.offer(new Node(r, c));
+                }
+            }
+        }
+        cal();
+        bfs();
+        System.out.println(ans);
+    }
+
+    private static void cal() {
+        while (!deque.isEmpty()) {
+            Node node = deque.poll();
+            int nr = node.r;
+            int nc = node.c;
+
+            for (int d = 0; d < 4; d++) {
+                if (nr + dr[d] < 0 || nr + dr[d] >= R || nc + dc[d] < 0 || nc + dc[d] >= C) continue;
+                if (melt[nr + dr[d]][nc + dc[d]] == Integer.MAX_VALUE) {
+                    melt[nr + dr[d]][nc + dc[d]] = melt[nr][nc] + 1;
+                    deque.offer(new Node(nr + dr[d], nc + dc[d]));
+                }
+            }
+        }
+    }
+
+    private static void bfs() {
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) {
+                left = Math.min(left, melt[r][c]);
+                right = Math.max(right, melt[r][c]);
+            }
+        }
+        while (left <= right) {
+            boolean possible = false;
+            int mid = (left + right) / 2;
+            visited = new boolean[R][C];
+            deque.offer(new Node(swan[0][0], swan[0][1]));
+            visited[swan[0][0]][swan[0][1]] = true;
+            while (!deque.isEmpty()) {
+                Node node = deque.poll();
+                int nr = node.r;
+                int nc = node.c;
+
+                for (int d = 0; d < 4; d++) {
+                    if (nr + dr[d] == swan[1][0] && nc + dc[d] == swan[1][1]) {
+                        possible = true;
+                        break;
+                    }
+                    if (nr + dr[d] < 0 || nr + dr[d] >= R || nc + dc[d] < 0 || nc + dc[d] >= C) continue;
+                    if (!visited[nr + dr[d]][nc + dc[d]] && melt[nr + dr[d]][nc + dc[d]] <= mid) {
+                        visited[nr + dr[d]][nc + dc[d]] = true;
+                        deque.offer(new Node(nr + dr[d], nc + dc[d]));
+                    }
+                }
+            }
+            if (possible) {
+                ans = mid;
+                right = mid - 1;
+            } else left = mid + 1;
+        }
+    }
 }
