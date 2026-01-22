@@ -13,22 +13,13 @@ public class Main {
         S = Integer.parseInt(st.nextToken());
         arr = new int[N];
         st = new StringTokenizer(br.readLine());
-        for (int n = 0; n < N; n++) {
-            arr[n] = Integer.parseInt(st.nextToken());
-            if (arr[n] >= S) {
-                System.out.println(1);
-                return;
-            }
-        }
+        for (int n = 0; n < N; n++) arr[n] = Integer.parseInt(st.nextToken());
         while (true) {
             if (temp >= S) {
                 ans = Math.min(ans, end - start);
                 temp -= arr[start++];
-            } else if (end == N) {
-                break;
-            } else {
-                temp += arr[end++];
-            }
+            } else if (end == N) break;
+            else temp += arr[end++];
         }
         System.out.println(ans == Integer.MAX_VALUE ? 0 : ans);
     }
