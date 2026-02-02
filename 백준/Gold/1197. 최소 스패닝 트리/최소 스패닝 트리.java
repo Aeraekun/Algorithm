@@ -29,7 +29,7 @@ public class Main {
                 ans += node.cost;
                 cnt++;
             }
-            if (cnt == E - 1) break;
+            if (cnt == V - 1) break;
         }
 
         System.out.println(ans);
