@@ -1,6 +1,5 @@
 class Solution {
     boolean solution(String s) {
-        boolean answer = true;
         int now =0;
         for(char c:s.toCharArray()){
             if(c=='(') now++;
@@ -9,6 +8,6 @@ class Solution {
                 now--;
             }
         }
-        return now==0 ? true : false;
+        return now==0;
     }
 }
